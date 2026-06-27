@@ -1,0 +1,104 @@
+# Game Leaderboard
+
+A weekly leaderboard for a mobile game. Built with NestJS (backend) + React/Vite (frontend), backed by Redis (live rankings), PostgreSQL and MongoDB.
+
+## Quick Start
+
+```bash
+docker compose up -d
+docker compose exec -T backend node dist/src/migrations/run.js
+docker compose exec -T backend node dist/src/scripts/seed-players.js
+docker compose exec -T backend node dist/src/scripts/seed-earnings.js
+```
+
+Then open **http://localhost:3000**.
+
+## Architecture
+
+```
+frontend (React/Vite, nginx)
+  │  /api/* → proxied to backend
+  ▼
+backend (NestJS)
+  ├─ Redis    — live sorted-set leaderboard, pool totals
+  ├─ PostgreSQL — players, weekly_earnings, weekly_pools, payouts
+  └─ MongoDB — weekly snapshots (archive)
+```
+
+## Features
+
+- **Live leaderboard** — rank, earnings, prize pool with weekly reset
+- **Region filter** — filter by NA / EU / ASIA / SA / OC
+- **Global stats** — total players, pool amount, top earner, region breakdown
+- **Player search** — find any player by username, click to view profile
+- **Player detail** — click any row to see rank, region, level, earnings
+- **Sticky rank bar** — shows current user with 3 above + 2 below (vertical layout)
+- **Pagination** — 100 per page with prev/next navigation
+- **Dark gaming theme** — optimized for readability, amber/gold highlights
+
+## Seed Data
+
+The seed scripts create 10,000 players with weighted earnings distributions:
+
+| Percentile | Earnings Range    |
+|------------|-------------------|
+| top 0.1%   | 100,000 – 999,999 |
+| top 1%     | 10,000 – 99,999   |
+| top 10%    | 1,000 – 9,999     |
+| rest       | 100 – 999         |
+
+Regions are weighted: NA 35%, EU 30%, ASIA 20%, SA 10%, OC 5%. Player levels range from 1–100 with mid-level bias.
+
+## API Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/leaderboard/top` | Top players (`?region=EU&offset=0&limit=100`) |
+| GET | `/api/leaderboard/player/:id` | Player rank + neighbours |
+| GET | `/api/leaderboard/player/:id/profile` | Player profile |
+| GET | `/api/leaderboard/search` | Search by username (`?q=foo`) |
+| GET | `/api/leaderboard/stats` | Global statistics |
+| GET | `/api/leaderboard/pool` | Prize pool info |
+| GET | `/api/leaderboard/countdown` | Weekly reset countdown |
+| POST | `/api/leaderboard/earnings` | Record an earning event |
+
+## Project Structure
+
+```
+backend/
+├── src/
+│   ├── leaderboard/
+│   │   ├── dto/           — API response types
+│   │   ├── services/      — ranking, prize logic
+│   │   └── leaderboard.controller.ts
+│   ├── providers/         — Redis, PostgreSQL, MongoDB adapters
+│   ├── migrations/        — SQL schema migrations
+│   └── scripts/           — seed scripts (compiled to dist/)
+├── docker-compose.yml
+└── Dockerfile
+
+frontend/
+├── src/
+│   ├── api/               — API client functions
+│   ├── components/        — React components
+│   └── App.tsx
+└── Dockerfile
+```
+
+## Development
+
+```bash
+# Start infrastructure
+docker compose up -d postgres redis mongodb
+
+# Backend (http://localhost:3001)
+cd backend
+cp .env .env.local   # edit if needed
+npm install
+npm run start:dev
+
+# Frontend (http://localhost:5173)
+cd frontend
+npm install
+npm run dev
+```

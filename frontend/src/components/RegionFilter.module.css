@@ -1,0 +1,26 @@
+.wrapper {
+  position: relative;
+}
+
+.select {
+  appearance: none;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  min-width: 130px;
+}
+
+.select:focus {
+  border-color: rgba(20, 185, 166, 0.4);
+}
+
+.select option {
+  background: var(--surface);
+  color: var(--text);
+}
