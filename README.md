@@ -1,6 +1,24 @@
 # Game Leaderboard
 
-A weekly leaderboard for a mobile game. Built with NestJS (backend) + React/Vite (frontend), backed by Redis (live rankings), PostgreSQL and MongoDB.
+A real-time weekly leaderboard system for mobile games, tracking player earnings, rankings, and prize pools with live updates.
+
+**Purpose** — Provide competitive visibility into player performance across global and regional leaderboards, resetting weekly with fresh prize pools. Designed for scale: 10,000+ players, sub-millisecond rank lookups, and real-time score updates.
+
+**Tech Stack**
+- **Backend** — NestJS (TypeScript) with modular architecture
+- **Frontend** — React 18 + Vite, TypeScript, CSS Modules
+- **Live Rankings** — Redis (sorted sets for O(log N) rank queries)
+- **Primary DB** — PostgreSQL (players, earnings, pools, payouts)
+- **Archive** — MongoDB (weekly snapshots for historical analysis)
+- **Infrastructure** — Docker Compose (multi-container orchestration)
+
+**Key Functions**
+- Live leaderboard with weekly reset, pagination (100 per page), and region filtering (NA/EU/ASIA/SA/OC)
+- Player search by username with profile details (rank, region, level, earnings)
+- Global statistics: total players, prize pool amount, top earner, region breakdown
+- Sticky rank bar showing current user with 3 above + 2 below
+- Prize pool countdown and earnings event recording via REST API
+- Seed scripts generate 10,000 players with realistic weighted distributions
 
 ## Quick Start
 
