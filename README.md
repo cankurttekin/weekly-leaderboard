@@ -20,6 +20,10 @@ A real-time weekly leaderboard system for mobile games, tracking player earnings
 - Prize pool countdown and earnings event recording via REST API
 - Seed scripts generate 10,000 players with realistic weighted distributions
 
+## Screenshots
+![Leaderboard](./assets/main.png)
+![Player](./assets/user.png)
+
 ## Quick Start
 
 ```bash
