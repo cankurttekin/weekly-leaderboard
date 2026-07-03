@@ -124,3 +124,39 @@ cd frontend
 npm install
 npm run dev
 ```
+
+
+## How AI Was Used
+
+I used several AI-assisted development tools throughout the project:
+
+- **OpenCode** for architecture analysis, planning and the majority of the implementation.
+- **Antigravity** (gemini flash) for general guidance, documentation and technical research.
+- **Copilot.vim** for inline code completion and autocomplete while manually editing the codebase when needed.
+
+### Research and Architecture
+
+- Researched existing leaderboard implementations and identified several relevant open-source projects.
+  - github.com/search?q=panteon&type=repositories&s=updated&o=desc&p=1
+  - github.com/search?q=leaderboard+language%3ATypeScript&type=repositories&l=TypeScript
+- Cloned some of these repositories and used OpenCode to analyze their architecture, technology stack decisions, and code organization.
+- Studied system design resources including:
+  - https://systemdesign.one/leaderboard-system-design/
+  and got feedback and suggestions from couple of models feeding case requirements, my decisions, mistakes noticed in existing solutions and this article.
+- Used these references to decide on the high-level architecture, steps for spec driven dev., technology stack and to implementation guidelines for AI agents.
+
+### Planning and Design
+
+- Sketched the initial UI/UX (on white board) 
+- Generated project documentation outlining:
+  - Required features
+  - TODOs
+  - Development rules and constraints
+- Used the **ui-ux-pro-max-skill** Claude Skill to refine the UI/UX design:
+  - https://skillsmp.com/creators/nextlevelbuilder/ui-ux-pro-max-skill/claude-skills-ui-ux-pro-max
+
+### Development
+
+- Used AI primarily as an engineering assistant for planning, code generation, code review, and documentation.
+- All generated code was reviewed and modified as needed during the process.
+
