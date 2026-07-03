@@ -1,0 +1,40 @@
+name: Deploy to AWS
+ 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            # clone repository if doesn't exist
+            if [ ! -d "$HOME/weekly-leaderboard" ]; then
+              echo "Directory ~/weekly-leaderboard not found. Cloning repository..."
+              git clone https://github.com/cankurttekin/weekly-leaderboard.git "$HOME/weekly-leaderboard"
+            fi
+
+            cd "$HOME/weekly-leaderboard" || exit 1
+            git pull origin main
+
+            if ! docker buildx version >/dev/null 2>&1; then
+              echo "Docker Buildx not found."
+            fi
+
+            # Rebuild and restart the Docker containers in background
+            docker-compose up -d --build --remove-orphans
+
+            # Wait for database containers to boot
+            sleep 16
+
+            # Run NestJS database migrations
+            docker-compose exec -T backend node dist/src/migrations/run.js
