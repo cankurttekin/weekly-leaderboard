@@ -55,7 +55,7 @@ You are responsible for designing a leaderboard system that integrates into an e
 Client and server code should be in separate projects. You are expected to use TypeScript for both front end and back end.
 Scenario
 
-One of Panteon’s idle/clicker mobile games has grown faster than expected. The game has over 10 million registered players and sees around 2 million active players every day. Players earn in-game currency as they play, and each week starts fresh — whoever earns the most that week climbs to the top of the leaderboard.
+Idle/clicker mobile game has grown faster than expected. The game has over 10 million registered players and sees around 2 million active players every day. Players earn in-game currency as they play, and each week starts fresh — whoever earns the most that week climbs to the top of the leaderboard.
 
 The original leaderboard was built quickly and has been running since launch. It works — but barely. The backend team gets weekly complaints from players:
 “The leaderboard takes forever to load.”
